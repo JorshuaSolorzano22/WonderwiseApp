@@ -11,41 +11,19 @@ import {
   Dimensions,
 } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
-import type { NavigationProp } from "@/types/navigations"
+import type { ScreenProps } from "@/types/navigations"
+import BottomNavigation from "@/components/BottonNavigation"
 
 const { width } = Dimensions.get("window")
 
-interface IndexScreenProps {
-  navigation: NavigationProp
-}
-
-const IndexScreen: React.FC<IndexScreenProps> = ({ navigation }) => {
-  // Función para manejar el click en las cartas
+const IndexScreen: React.FC<ScreenProps<"IndexScreen">> = ({ navigation }) => {
   const handleCardPress = (place: any) => {
     navigation.navigate("DetailsScreen", { place })
-  }
-
-  // Función para manejar la navegación del bottom nav
-  const handleBottomNavPress = (screen: string) => {
-    switch (screen) {
-      case "Mapa":
-        navigation.navigate("InteractiveMapScreen")
-        break
-      case "Mi plan":
-        navigation.navigate("MyItineraryScreen")
-        break
-      case "Perfil":
-        navigation.navigate("ProfileScreen")
-        break
-      default:
-        break
-    }
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Explorar</Text>
           <View style={styles.locationContainer}>
@@ -54,7 +32,6 @@ const IndexScreen: React.FC<IndexScreenProps> = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Search Bar */}
         <View style={styles.searchContainer}>
           <View style={styles.searchInputContainer}>
             <Icon name="search" size={16} color="#9CA3AF" style={styles.searchIcon} />
@@ -66,7 +43,6 @@ const IndexScreen: React.FC<IndexScreenProps> = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Category Filters */}
         <View style={styles.categoryContainer}>
           <TouchableOpacity style={styles.navArrow}>
             <Icon name="chevron-left" size={16} color="#6B7280" />
@@ -94,7 +70,6 @@ const IndexScreen: React.FC<IndexScreenProps> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Tab Navigation */}
         <View style={styles.tabContainer}>
           <TouchableOpacity style={[styles.tab, styles.activeTab]}>
             <Text style={[styles.tabText, styles.activeTabText]}>Destacados</Text>
@@ -107,7 +82,6 @@ const IndexScreen: React.FC<IndexScreenProps> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Section Header */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Destacados</Text>
           <TouchableOpacity style={styles.seeAllButton}>
@@ -116,9 +90,7 @@ const IndexScreen: React.FC<IndexScreenProps> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Destination Cards */}
         <View style={styles.cardsContainer}>
-          {/* Machu Picchu Card */}
           <TouchableOpacity
             style={styles.card}
             onPress={() =>
@@ -159,7 +131,6 @@ const IndexScreen: React.FC<IndexScreenProps> = ({ navigation }) => {
             </View>
           </TouchableOpacity>
 
-          {/* Lago Titicaca Card */}
           <TouchableOpacity
             style={styles.card}
             onPress={() =>
@@ -202,24 +173,7 @@ const IndexScreen: React.FC<IndexScreenProps> = ({ navigation }) => {
       </ScrollView>
 
       {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="home" size={20} color="#3B82F6" />
-          <Text style={[styles.navText, styles.activeNavText]}>Explorar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => handleBottomNavPress("Mapa")}>
-          <Icon name="map" size={20} color="#9CA3AF" />
-          <Text style={styles.navText}>Mapa</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => handleBottomNavPress("Mi plan")}>
-          <Icon name="calendar" size={20} color="#9CA3AF" />
-          <Text style={styles.navText}>Mi plan</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => handleBottomNavPress("Perfil")}>
-          <Icon name="user" size={20} color="#9CA3AF" />
-          <Text style={styles.navText}>Perfil</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNavigation navigation={navigation} activeTab="Explorar" />
     </SafeAreaView>
   )
 }
@@ -412,27 +366,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#6B7280",
     marginLeft: 4,
-  },
-  bottomNav: {
-    flexDirection: "row",
-    backgroundColor: "#FFFFFF",
-    borderTopWidth: 1,
-    borderTopColor: "#E5E7EB",
-    paddingVertical: 8,
-  },
-  navItem: {
-    flex: 1,
-    alignItems: "center",
-    paddingVertical: 8,
-  },
-  navText: {
-    fontSize: 12,
-    color: "#9CA3AF",
-    marginTop: 4,
-  },
-  activeNavText: {
-    color: "#3B82F6",
-    fontWeight: "500",
   },
 })
 

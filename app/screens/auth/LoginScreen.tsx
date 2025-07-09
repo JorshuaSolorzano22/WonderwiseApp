@@ -4,13 +4,9 @@ import type React from "react"
 import { useState } from "react"
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, Alert } from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
-import type { NavigationProp } from "@/types/navigations"
+import type { ScreenProps } from "@/types/navigations"
 
-interface LoginScreenProps {
-  navigation: NavigationProp
-}
-
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+const LoginScreen: React.FC<ScreenProps<"LoginScreen">> = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login")
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
@@ -22,8 +18,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       return
     }
 
-    // Usar navigate en lugar de replace si hay problemas
-    navigation.navigate("IndexScreen")
+    navigation.replace("IndexScreen")
   }
 
   const handleForgotPassword = (): void => {
@@ -39,10 +34,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
       <View style={styles.content}>
-        {/* Header */}
         <Text style={styles.headerText}>Bienvenida a Wanderwise</Text>
 
-        {/* Tabs */}
         <View style={styles.tabContainer}>
           <TouchableOpacity
             style={[styles.tab, activeTab === "login" && styles.activeTab]}
@@ -58,9 +51,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Form */}
         <View style={styles.form}>
-          {/* Email Input */}
           <View style={styles.inputContainer}>
             <Icon name="email" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
@@ -73,7 +64,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             />
           </View>
 
-          {/* Password Input */}
           <View style={styles.inputContainer}>
             <Icon name="lock" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
@@ -88,25 +78,21 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          {/* Login Button */}
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginButtonText}>Iniciar sesión</Text>
             <Icon name="arrow-forward" size={20} color="#fff" />
           </TouchableOpacity>
 
-          {/* Forgot Password */}
           <TouchableOpacity style={styles.forgotPassword} onPress={handleForgotPassword}>
             <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
           </TouchableOpacity>
 
-          {/* Divider */}
           <View style={styles.divider}>
             <View style={styles.dividerLine} />
             <Text style={styles.dividerText}>O continúa con</Text>
             <View style={styles.dividerLine} />
           </View>
 
-          {/* Google Button */}
           <TouchableOpacity style={styles.googleButton} onPress={handleGoogleLogin}>
             <Icon name="account-circle" size={20} color="#4285F4" />
             <Text style={styles.googleButtonText}>Continuar con Google</Text>
