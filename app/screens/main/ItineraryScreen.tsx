@@ -1,12 +1,151 @@
 "use client"
 
 import type React from "react"
-import { View, Text, StyleSheet, SafeAreaView, StatusBar, TouchableOpacity } from "react-native"
+import { useState, useEffect } from "react"
+import { View, Text, StyleSheet, SafeAreaView, StatusBar, TouchableOpacity, ScrollView, Image } from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
-import type { ScreenProps } from "@/types/navigations"
-import BottomNavigation from "@/components/BottonNavigation"
 
-const MyItineraryScreen: React.FC<ScreenProps<"ItineraryScreen">> = ({ navigation }) => {
+interface Activity {
+  id: string
+  name: string
+  location: string
+  time: string
+  category: string
+  categoryColor: string
+  note?: string
+  image: string
+}
+
+interface DayItinerary {
+  date: string
+  dayName: string
+  activities: Activity[]
+}
+
+interface ItineraryScreenProps {
+  navigation: any
+}
+
+const ItineraryScreen: React.FC<ItineraryScreenProps> = ({ navigation }) => {
+  const [itinerary] = useState<DayItinerary[]>([
+    {
+      date: "15 de mayo 2025",
+      dayName: "Lunes",
+      activities: [
+        {
+          id: "1",
+          name: "Machu Picchu",
+          location: "Cusco, Perú",
+          time: "09:00 - 13:00",
+          category: "Cultura",
+          categoryColor: "#E91E63",
+          note: "Llevar protector solar y agua",
+          image:
+            "https://images.unsplash.com/photo-1587595431973-160d0d94add1?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        },
+        {
+          id: "2",
+          name: "Almuerzo",
+          location: "Aguas Calientes, Perú",
+          time: "13:30 - 15:00",
+          category: "Gastronomía",
+          categoryColor: "#FF9800",
+          image:
+            "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        },
+        {
+          id: "3",
+          name: "Tren de regreso",
+          location: "Cusco, Perú",
+          time: "16:00 - 18:00",
+          category: "Transporte",
+          categoryColor: "#4CAF50",
+          note: "Confirmar 2 horas antes",
+          image:
+            "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        },
+      ],
+    },
+    {
+      date: "16 de mayo 2025",
+      dayName: "Martes",
+      activities: [
+        {
+          id: "4",
+          name: "Valle Sagrado",
+          location: "Cusco, Perú",
+          time: "08:00 - 12:00",
+          category: "Cultura",
+          categoryColor: "#E91E63",
+          image:
+            "https://images.unsplash.com/photo-1526392060635-9d6019884377?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        },
+        {
+          id: "5",
+          name: "Mercado San Pedro",
+          location: "Cusco, Perú",
+          time: "14:00 - 16:00",
+          category: "Gastronomía",
+          categoryColor: "#FF9800",
+          image:
+            "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        },
+      ],
+    },
+  ])
+
+  useEffect(() => {
+    console.log("📅 ItineraryScreen montada correctamente")
+  }, [])
+
+  const renderActivityCard = (activity: Activity) => (
+    <View key={activity.id} style={styles.activityCard}>
+      <Image source={{ uri: activity.image }} style={styles.activityImage} />
+      <View style={styles.activityContent}>
+        <View style={styles.activityHeader}>
+          <Text style={styles.activityName}>{activity.name}</Text>
+          <View style={[styles.categoryTag, { backgroundColor: activity.categoryColor }]}>
+            <Text style={styles.categoryText}>{activity.category}</Text>
+          </View>
+        </View>
+
+        <View style={styles.activityDetail}>
+          <Icon name="place" size={16} color="#666" />
+          <Text style={styles.activityLocation}>{activity.location}</Text>
+        </View>
+
+        <View style={styles.activityDetail}>
+          <Icon name="access-time" size={16} color="#666" />
+          <Text style={styles.activityTime}>{activity.time}</Text>
+        </View>
+
+        {activity.note && <Text style={styles.activityNote}>"{activity.note}"</Text>}
+      </View>
+    </View>
+  )
+
+  const renderDaySection = (day: DayItinerary) => (
+    <View key={`${day.dayName}-${day.date}`} style={styles.daySection}>
+      <View style={styles.dayHeader}>
+        <View style={styles.dayInfo}>
+          <Icon name="event" size={20} color="#2196F3" />
+          <View style={styles.dayTextContainer}>
+            <Text style={styles.dayTitle}>
+              {day.dayName}, {day.date}
+            </Text>
+            <Text style={styles.activityCount}>{day.activities.length} actividades</Text>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.addButton}>
+          <Icon name="add" size={16} color="#2196F3" />
+          <Text style={styles.addButtonText}>Añadir</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.activitiesContainer}>{day.activities.map(renderActivityCard)}</View>
+    </View>
+  )
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -16,27 +155,38 @@ const MyItineraryScreen: React.FC<ScreenProps<"ItineraryScreen">> = ({ navigatio
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Mi Plan</Text>
-        <TouchableOpacity>
-          <Icon name="add" size={24} color="#007AFF" />
+        <Text style={styles.headerTitle}>Mi itinerario</Text>
+        <View style={{ width: 24 }} />
+      </View>
+
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <Text style={styles.sectionTitle}>Lista de actividades</Text>
+
+        {itinerary.map(renderDaySection)}
+
+        {/* Add some bottom padding */}
+        <View style={{ height: 100 }} />
+      </ScrollView>
+
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("IndexScreen")}>
+          <Icon name="home" size={24} color="#666" />
+          <Text style={styles.navText}>Explorar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("MapScreen")}>
+          <Icon name="map" size={24} color="#666" />
+          <Text style={styles.navText}>Mapa</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ItineraryScreen")}>
+          <Icon name="view-list" size={24} color="#2196F3" />
+          <Text style={[styles.navText, { color: "#2196F3" }]}>Mi plan</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ProfileScreen")}>
+          <Icon name="person" size={24} color="#666" />
+          <Text style={styles.navText}>Perfil</Text>
         </TouchableOpacity>
       </View>
-
-      <View style={styles.content}>
-        <View style={styles.emptyState}>
-          <Icon name="event-note" size={64} color="#ccc" />
-          <Text style={styles.title}>Mi Plan de Viaje</Text>
-          <Text style={styles.subtitle}>Aquí aparecerán todos tus itinerarios guardados y planificados.</Text>
-          <Text style={styles.emptyText}>No tienes itinerarios guardados aún</Text>
-
-          <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate("ItineraryScreen")}>
-            <Icon name="add" size={20} color="#fff" />
-            <Text style={styles.createButtonText}>Crear nuevo itinerario</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <BottomNavigation navigation={navigation} activeTab="Mi plan" />
     </SafeAreaView>
   )
 }
@@ -62,47 +212,151 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
   },
-  emptyState: {
-    alignItems: "center",
-    padding: 40,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#000",
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#666",
-    textAlign: "center",
-    marginBottom: 16,
-    lineHeight: 22,
-  },
-  emptyText: {
-    fontSize: 14,
-    color: "#999",
-    marginBottom: 24,
-  },
-  createButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#4CAF50",
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  createButtonText: {
-    color: "#fff",
+  sectionTitle: {
     fontSize: 16,
     fontWeight: "600",
-    marginLeft: 8,
+    color: "#000",
+    marginTop: 16,
+    marginBottom: 20,
+  },
+  daySection: {
+    marginBottom: 24,
+  },
+  dayHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: "#f8f9fa",
+    borderRadius: 8,
+  },
+  dayInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  dayTextContainer: {
+    marginLeft: 12,
+  },
+  dayTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#000",
+    marginBottom: 2,
+  },
+  activityCount: {
+    fontSize: 14,
+    color: "#666",
+  },
+  addButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  addButtonText: {
+    fontSize: 14,
+    color: "#2196F3",
+    marginLeft: 4,
+    fontWeight: "500",
+  },
+  activitiesContainer: {
+    gap: 12,
+  },
+  activityCard: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
+  },
+  activityImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  activityContent: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  activityHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  activityName: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#000",
+    flex: 1,
+    marginRight: 8,
+  },
+  categoryTag: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  categoryText: {
+    fontSize: 12,
+    color: "#fff",
+    fontWeight: "500",
+  },
+  activityDetail: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 4,
+  },
+  activityLocation: {
+    fontSize: 14,
+    color: "#666",
+    marginLeft: 6,
+  },
+  activityTime: {
+    fontSize: 14,
+    color: "#666",
+    marginLeft: 6,
+  },
+  activityNote: {
+    fontSize: 12,
+    color: "#666",
+    fontStyle: "italic",
+    marginTop: 4,
+  },
+  bottomNav: {
+    flexDirection: "row",
+    backgroundColor: "#FFFFFF",
+    borderTopWidth: 1,
+    borderTopColor: "#E5E7EB",
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  navText: {
+    fontSize: 12,
+    color: "#666",
+    marginTop: 4,
+    textAlign: "center",
   },
 })
 
-export default MyItineraryScreen
+export default ItineraryScreen

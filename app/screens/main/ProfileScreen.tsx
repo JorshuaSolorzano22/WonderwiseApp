@@ -3,10 +3,12 @@
 import type React from "react"
 import { View, Text, StyleSheet, SafeAreaView, StatusBar, TouchableOpacity, Image } from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
-import type { ScreenProps } from "@/types/navigations"
-import BottomNavigation from "@/components/BottonNavigation"
 
-const ProfileScreen: React.FC<ScreenProps<"ProfileScreen">> = ({ navigation }) => {
+interface ProfileScreenProps {
+  navigation: any
+}
+
+const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const profileOptions = [
     { icon: "person", title: "Información personal", subtitle: "Edita tu perfil" },
     { icon: "favorite", title: "Lugares favoritos", subtitle: "Tus destinos guardados" },
@@ -48,10 +50,7 @@ const ProfileScreen: React.FC<ScreenProps<"ProfileScreen">> = ({ navigation }) =
         {/* Profile Info */}
         <View style={styles.profileSection}>
           <View style={styles.avatarContainer}>
-            <Image 
-              source={{ uri: "https://via.placeholder.com/80x80/007AFF/FFFFFF?text=U" }} 
-              style={styles.avatar} 
-            />
+            <Image source={{ uri: "https://via.placeholder.com/80x80/007AFF/FFFFFF?text=U" }} style={styles.avatar} />
           </View>
           <Text style={styles.userName}>Jorshua</Text>
           <Text style={styles.userEmail}>jorshuaadmin@admin.com</Text>
@@ -60,11 +59,7 @@ const ProfileScreen: React.FC<ScreenProps<"ProfileScreen">> = ({ navigation }) =
         {/* Profile Options */}
         <View style={styles.optionsContainer}>
           {profileOptions.map((option, index) => (
-            <TouchableOpacity 
-              key={index} 
-              style={styles.optionItem} 
-              onPress={() => handleOptionPress(option.title)}
-            >
+            <TouchableOpacity key={index} style={styles.optionItem} onPress={() => handleOptionPress(option.title)}>
               <View style={styles.optionLeft}>
                 <Icon name={option.icon} size={24} color="#666" />
                 <View style={styles.optionText}>
@@ -78,7 +73,25 @@ const ProfileScreen: React.FC<ScreenProps<"ProfileScreen">> = ({ navigation }) =
         </View>
       </View>
 
-      <BottomNavigation navigation={navigation} activeTab="Perfil" />
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("IndexScreen")}>
+          <Icon name="explore" size={24} color="#666" />
+          <Text style={styles.navText}>Explorar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("MapScreen2")}>
+          <Icon name="map" size={24} color="#666" />
+          <Text style={styles.navText}>Mapa</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ItineraryScreen")}>
+          <Icon name="list" size={24} color="#666" />
+          <Text style={styles.navText}>Mi plan</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ProfileScreen")}>
+          <Icon name="person" size={24} color="#007AFF" />
+          <Text style={[styles.navText, { color: "#007AFF" }]}>Perfil</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   )
 }
@@ -159,6 +172,26 @@ const styles = StyleSheet.create({
   optionSubtitle: {
     fontSize: 14,
     color: "#666",
+  },
+  bottomNav: {
+    flexDirection: "row",
+    backgroundColor: "#FFFFFF",
+    borderTopWidth: 1,
+    borderTopColor: "#E5E7EB",
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  navText: {
+    fontSize: 12,
+    color: "#666",
+    marginTop: 4,
+    textAlign: "center",
   },
 })
 

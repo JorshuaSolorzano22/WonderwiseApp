@@ -163,19 +163,19 @@ const AddToItineraryScreen: React.FC<AddToItineraryScreenProps> = ({ navigation,
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="explore" size={24} color="#666" />
-          <Text style={styles.navText}>Explorar</Text>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("IndexScreen")}>
+          <Icon name="explore" size={24} color="#007AFF" />
+          <Text style={[styles.navText, { color: '#007AFF' }]}>Explorar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("MapScreen2")}>
           <Icon name="map" size={24} color="#666" />
           <Text style={styles.navText}>Mapa</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="list" size={24} color="#007AFF" />
-          <Text style={[styles.navText, { color: '#007AFF' }]}>Mi plan</Text>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ItineraryScreen")}>
+          <Icon name="list" size={24} color="#666" />
+          <Text style={styles.navText}>Mi plan</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ProfileScreen")}>
           <Icon name="person" size={24} color="#666" />
           <Text style={styles.navText}>Perfil</Text>
         </TouchableOpacity>

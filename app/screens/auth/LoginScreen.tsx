@@ -105,7 +105,7 @@ const LoginScreen: React.FC<ScreenProps<"LoginScreen">> = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate("IndexScreen")}>
             <Text style={styles.loginButtonText}>Iniciar sesión</Text>
             <Icon name="arrow-forward" size={20} color="#fff" />
           </TouchableOpacity>

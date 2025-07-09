@@ -11,12 +11,14 @@ import {
   Dimensions,
 } from "react-native"
 import Icon from "react-native-vector-icons/Feather"
-import type { ScreenProps } from "@/types/navigations"
-import BottomNavigation from "@/components/BottonNavigation"
 
 const { width } = Dimensions.get("window")
 
-const IndexScreen: React.FC<ScreenProps<"IndexScreen">> = ({ navigation }) => {
+interface IndexScreenProps {
+  navigation: any
+}
+
+const IndexScreen: React.FC<IndexScreenProps> = ({ navigation }) => {
   const handleCardPress = (place: any) => {
     navigation.navigate("DetailsScreen", { place })
   }
@@ -173,7 +175,24 @@ const IndexScreen: React.FC<ScreenProps<"IndexScreen">> = ({ navigation }) => {
       </ScrollView>
 
       {/* Bottom Navigation */}
-      <BottomNavigation navigation={navigation} activeTab="Explorar" />
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("IndexScreen")}>
+          <Icon name="home" size={24} color="#007AFF" />
+          <Text style={[styles.navText, { color: "#007AFF" }]}>Explorar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("MapScreen2")}>
+          <Icon name="map" size={24} color="#666" />
+          <Text style={styles.navText}>Mapa</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ItineraryScreen")}>
+          <Icon name="calendar" size={24} color="#666" />
+          <Text style={styles.navText}>Mi plan</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ProfileScreen")}>
+          <Icon name="user" size={24} color="#666" />
+          <Text style={styles.navText}>Perfil</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   )
 }
@@ -366,6 +385,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#6B7280",
     marginLeft: 4,
+  },
+  bottomNav: {
+    flexDirection: "row",
+    backgroundColor: "#FFFFFF",
+    borderTopWidth: 1,
+    borderTopColor: "#E5E7EB",
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  navText: {
+    fontSize: 12,
+    color: "#666",
+    marginTop: 4,
+    textAlign: "center",
   },
 })
 
