@@ -15,6 +15,7 @@ export type RootStackParamList = {
   ProfileScreen: undefined
   InfoCategoriesScreen: undefined
   InfoOpinionsScreen: undefined
+  UserControlScreen: undefined
 }
 
 export type NavigationProp = NativeStackNavigationProp<RootStackParamList>

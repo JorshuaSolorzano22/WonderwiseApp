@@ -12,13 +12,20 @@ const ProfileScreen: React.FC<ScreenProps<"ProfileScreen">> = ({ navigation }) =
     { icon: "favorite", title: "Lugares favoritos", subtitle: "Tus destinos guardados" },
     { icon: "history", title: "Historial de viajes", subtitle: "Lugares que has visitado" },
     { icon: "settings", title: "Configuración", subtitle: "Preferencias de la app" },
-    { icon: "help", title: "Ayuda y soporte", subtitle: "¿Necesitas ayuda?" },
+    { icon: "help", title: "Gestion de usuarios", subtitle: "Lleva control de los usuarios creados" },
     { icon: "logout", title: "Cerrar sesión", subtitle: "Salir de tu cuenta" },
   ]
 
   const handleOptionPress = (option: string) => {
-    if (option === "Cerrar sesión") {
-      navigation.navigate("LoginScreen")
+    switch (option) {
+      case "Cerrar sesión":
+        navigation.navigate("LoginScreen")
+        break
+      case "Gestion de usuarios":
+        navigation.navigate("UserControlScreen")
+        break
+      default:
+        console.log(`Opción seleccionada: ${option}`)
     }
   }
 
@@ -41,16 +48,23 @@ const ProfileScreen: React.FC<ScreenProps<"ProfileScreen">> = ({ navigation }) =
         {/* Profile Info */}
         <View style={styles.profileSection}>
           <View style={styles.avatarContainer}>
-            <Image source={{ uri: "https://via.placeholder.com/80x80/007AFF/FFFFFF?text=U" }} style={styles.avatar} />
+            <Image 
+              source={{ uri: "https://via.placeholder.com/80x80/007AFF/FFFFFF?text=U" }} 
+              style={styles.avatar} 
+            />
           </View>
-          <Text style={styles.userName}>Usuario Wanderwise</Text>
-          <Text style={styles.userEmail}>usuario@wanderwise.com</Text>
+          <Text style={styles.userName}>Jorshua</Text>
+          <Text style={styles.userEmail}>jorshuaadmin@admin.com</Text>
         </View>
 
         {/* Profile Options */}
         <View style={styles.optionsContainer}>
           {profileOptions.map((option, index) => (
-            <TouchableOpacity key={index} style={styles.optionItem} onPress={() => handleOptionPress(option.title)}>
+            <TouchableOpacity 
+              key={index} 
+              style={styles.optionItem} 
+              onPress={() => handleOptionPress(option.title)}
+            >
               <View style={styles.optionLeft}>
                 <Icon name={option.icon} size={24} color="#666" />
                 <View style={styles.optionText}>

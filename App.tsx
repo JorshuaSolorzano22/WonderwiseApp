@@ -17,6 +17,7 @@ import ProfileScreen from '../myApp/app/screens/main/ProfileScreen';
 import InfoCategoriesScreen from '../myApp/app/screens/main/InfoCategoriesScreen';
 import InfoOpinionsScreen from '../myApp/app/screens/main/InfoOpinionScreen';
 import IndexScreen from '../myApp/app/screens/main/index';
+import UserControlScreen from '../myApp/app/screens/main/UserControlScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -46,6 +47,7 @@ const App: React.FC = () => {
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen name="InfoCategoriesScreen" component={InfoCategoriesScreen} />
         <Stack.Screen name="InfoOpinionsScreen" component={InfoOpinionsScreen} />
+        <Stack.Screen name="UserControlScreen" component={UserControlScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
