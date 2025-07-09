@@ -79,7 +79,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           <Icon name="explore" size={24} color="#666" />
           <Text style={styles.navText}>Explorar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("MapScreen2")}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("MapScreen")}>
           <Icon name="map" size={24} color="#666" />
           <Text style={styles.navText}>Mapa</Text>
         </TouchableOpacity>

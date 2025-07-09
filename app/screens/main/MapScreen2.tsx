@@ -247,10 +247,10 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("IndexScreen")}>
-          <Icon name="explore" size={24} color="#666" />
+          <Icon name="home" size={24} color="#666" />
           <Text style={styles.navText}>Explorar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("MapScreen2")}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("MapScreen")}>
           <Icon name="map" size={24} color="#007AFF" />
           <Text style={[styles.navText, { color: "#007AFF" }]}>Mapa</Text>
         </TouchableOpacity>

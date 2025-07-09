@@ -179,8 +179,8 @@ const ItineraryScreen: React.FC<ItineraryScreenProps> = ({ navigation }) => {
           <Text style={styles.navText}>Mapa</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ItineraryScreen")}>
-          <Icon name="view-list" size={24} color="#2196F3" />
-          <Text style={[styles.navText, { color: "#2196F3" }]}>Mi plan</Text>
+          <Icon name="list" size={24} color="#007AFF" />
+          <Text style={[styles.navText, { color: "#007AFF" }]}>Mi plan</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate("ProfileScreen")}>
           <Icon name="person" size={24} color="#666" />

@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RootStackParamList } from "@/types/navigations"
 
-// Import all screens
 import WelcomeScreen from '../WonderwiseApp/app/screens/auth/WelcomeScreen';
 import LoginScreen from '../WonderwiseApp/app/screens/auth/LoginScreen';
 import RegisterScreen from '../WonderwiseApp/app/screens/auth/RegisterScreen';
