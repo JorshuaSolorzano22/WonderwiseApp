@@ -4,19 +4,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RootStackParamList } from "@/types/navigations"
 
 // Import all screens
-import WelcomeScreen from '../WonderwiseApp/app/screens/auth/WelcomeScreen';
-import LoginScreen from '../WonderwiseApp/app/screens/auth/LoginScreen';
-import RegisterScreen from '../WonderwiseApp/app/screens/auth/RegisterScreen';
-import DetailsScreen from '../WonderwiseApp/app/screens/main/DetailsScreen';
-import InformationScreen from '../WonderwiseApp/app/screens/main/InformationScreen';
-import WhatToKnowScreen from '../WonderwiseApp/app/screens/main/WhatToKnowScreen';
-import MapScreen from '../WonderwiseApp/app/screens/main/DetailsScreen';
-import ItineraryScreen from '../WonderwiseApp/app/screens/main/MapScreen';
-import AddToItineraryScreen from '../WonderwiseApp/app/screens/main/AddToItineraryScreen';
-import ProfileScreen from '../WonderwiseApp/app/screens/main/ProfileScreen';
-import InfoCategoriesScreen from '../WonderwiseApp/app/screens/main/InfoCategoriesScreen';
-import InfoOpinionsScreen from '../WonderwiseApp/app/screens/main/InfoOpinionScreen';
-import IndexScreen from '../WonderwiseApp/app/screens/main/index';
+import WelcomeScreen from '../myApp/app/screens/auth/WelcomeScreen';
+import LoginScreen from '../myApp/app/screens/auth/LoginScreen';
+import RegisterScreen from '../myApp/app/screens/auth/RegisterScreen';
+import DetailsScreen from '../myApp/app/screens/main/DetailsScreen';
+import InformationScreen from '../myApp/app/screens/main/InformationScreen';
+import WhatToKnowScreen from '../myApp/app/screens/main/WhatToKnowScreen';
+import MapScreen from '../myApp/app/screens/main/DetailsScreen';
+import ItineraryScreen from '../myApp/app/screens/main/MapScreen';
+import AddToItineraryScreen from '../myApp/app/screens/main/AddToItineraryScreen';
+import ProfileScreen from '../myApp/app/screens/main/ProfileScreen';
+import InfoCategoriesScreen from '../myApp/app/screens/main/InfoCategoriesScreen';
+import InfoOpinionsScreen from '../myApp/app/screens/main/InfoOpinionScreen';
+import IndexScreen from '../myApp/app/screens/main/index';
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -31,16 +31,13 @@ const App: React.FC = () => {
           gestureEnabled: true,
         }}
       >
-        {/* Authentication Flow */}
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ gestureEnabled: false }} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
 
-        {/* Main App Flow */}
         <Stack.Screen name="IndexScreen" component={IndexScreen} options={{ gestureEnabled: false }} />
         <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
 
-        {/* Secondary Screens */}
         <Stack.Screen name="InformationScreen" component={InformationScreen} />
         <Stack.Screen name="WhatToKnowScreen" component={WhatToKnowScreen} />
         <Stack.Screen name="MapScreen" component={MapScreen} />

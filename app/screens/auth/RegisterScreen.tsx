@@ -1,37 +1,54 @@
 "use client"
 
-import type React from "react"
-import { useState } from "react"
+import React, { useState } from "react"
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, Alert } from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore"
+import { db } from "../../../AccesoFireBase"
 import type { ScreenProps } from "@/types/navigations"
 
 const RegisterScreen: React.FC<ScreenProps<"RegisterScreen">> = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState<"login" | "register">("register")
-  const [fullName, setFullName] = useState<string>("")
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
-  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [fullName, setFullName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
 
-  const handleRegister = (): void => {
-    if (!fullName || !email || !password) {
-      Alert.alert("Error", "Por favor completa todos los campos")
-      return
-    }
-
-    if (password.length < 6) {
-      Alert.alert("Error", "La contraseña debe tener al menos 6 caracteres")
-      return
-    }
-
-    Alert.alert("Registro exitoso", "Tu cuenta ha sido creada correctamente", [
-      {
-        text: "OK",
-        onPress: () => navigation.replace("IndexScreen"),
-      },
-    ])
+  const handleRegister = async (): Promise<void> => {
+  if (!fullName || !email || !password) {
+    Alert.alert("Campos incompletos", "Por favor completa todos los campos.")
+    return
   }
 
+  try {
+    const usersRef = collection(db, "Usuarios")
+    const q = query(usersRef, where("correo", "==", email))
+    const querySnapshot = await getDocs(q)
+
+    if (!querySnapshot.empty) {
+      Alert.alert("Correo ya registrado", "Ya existe una cuenta con este correo.")
+      return
+    }
+
+    await addDoc(usersRef, {
+      nombre: fullName,
+      correo: email,
+      contrasena: password,
+    })
+
+    // Limpiar campos
+    setFullName("")
+    setEmail("")
+    setPassword("")
+
+    Alert.alert("Cuenta creada", "Tu cuenta ha sido creada correctamente.", [
+      { text: "OK", onPress: () => navigation.replace("LoginScreen") },
+    ])
+  } catch (error) {
+    console.error("Error al registrar:", error)
+    Alert.alert("Error", "No se pudo crear la cuenta. Intenta de nuevo.")
+  }
+}
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />

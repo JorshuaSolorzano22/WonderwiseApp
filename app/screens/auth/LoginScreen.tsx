@@ -1,25 +1,52 @@
 "use client"
 
-import type React from "react"
-import { useState } from "react"
+import React, { useState } from "react"
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, Alert } from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
+import { collection, query, where, getDocs } from "firebase/firestore"
+import { db } from "../../../AccesoFireBase"
 import type { ScreenProps } from "@/types/navigations"
+
 
 const LoginScreen: React.FC<ScreenProps<"LoginScreen">> = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login")
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
-  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
 
-  const handleLogin = (): void => {
-    if (!email || !password) {
-      Alert.alert("Error", "Por favor completa todos los campos")
+  const handleLogin = async (): Promise<void> => {
+  if (!email || !password) {
+    Alert.alert("Campos incompletos", "Por favor completa todos los campos.")
+    return
+  }
+
+  try {
+    const usersRef = collection(db, "Usuarios")
+    const q = query(usersRef, where("correo", "==", email))
+    const querySnapshot = await getDocs(q)
+
+    if (querySnapshot.empty) {
+      Alert.alert("Correo incorrecto", "No se encontró una cuenta con ese correo.")
       return
     }
 
-    navigation.replace("IndexScreen")
+    const userDoc = querySnapshot.docs[0]
+    const data = userDoc.data()
+
+    if (data.contrasena !== password) {
+      Alert.alert("Contraseña incorrecta", "La contraseña ingresada es incorrecta.")
+      return
+    }
+
+    // Usuario autenticado correctamente
+    Alert.alert("Bienvenido", `Hola, ${data.nombre}`, [
+       { text: "Continuar", onPress: () => navigation.navigate("IndexScreen") },
+    ])
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error)
+    Alert.alert("Error", "No se pudo iniciar sesión. Inténtalo de nuevo.")
   }
+}
 
   const handleForgotPassword = (): void => {
     Alert.alert("Recuperar contraseña", "Se ha enviado un enlace a tu correo electrónico")
@@ -102,7 +129,6 @@ const LoginScreen: React.FC<ScreenProps<"LoginScreen">> = ({ navigation }) => {
     </SafeAreaView>
   )
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
